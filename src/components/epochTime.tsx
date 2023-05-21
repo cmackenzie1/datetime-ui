@@ -1,10 +1,16 @@
-'use client';
-import { useEffect, useState } from 'react';
+"use client";
+import { useEffect, useState } from "react";
 
 interface EpochTimeProps {
   name: string;
   time: Date;
-  unit: 'seconds' | 'milliseconds' | 'microseconds' | 'nanoseconds' | 'rfc3339' | 'fulldatetime';
+  unit:
+    | "seconds"
+    | "milliseconds"
+    | "microseconds"
+    | "nanoseconds"
+    | "rfc3339"
+    | "fulldatetime";
 }
 
 export default function EpochTime({ name, time, unit }: EpochTimeProps) {
@@ -19,16 +25,16 @@ export default function EpochTime({ name, time, unit }: EpochTimeProps) {
       <h2 className="text-2xl font-bold">{name}</h2>
 
       <span
-        className="flex copyable"
+        className="flex copyable rounded-lg p-2 mt-2 cursor-pointer items-center"
         onClick={(e) => {
           navigator.clipboard.writeText(e.currentTarget.innerText);
           setIsCopied(true);
+          setTimeout(() => setIsCopied(false), 750);
         }}
       >
         <code className="text-xl">{formatTime(time, unit)}</code>
 
         {/* Switch icon between copy and copied when text is copied. Reset after 750ms */}
-
         <span className="ml-2">
           {!isCopied ? (
             <svg
@@ -37,7 +43,7 @@ export default function EpochTime({ name, time, unit }: EpochTimeProps) {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-6 h-6"
+              className="w-6 h-6 text-gray-600 dark:text-gray-400 transition-colors duration-300"
             >
               <path
                 strokeLinecap="round"
@@ -52,7 +58,7 @@ export default function EpochTime({ name, time, unit }: EpochTimeProps) {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="green"
-              className="w-6 h-6"
+              className="w-6 h-6 text-green-500"
             >
               <path
                 strokeLinecap="round"
@@ -67,19 +73,22 @@ export default function EpochTime({ name, time, unit }: EpochTimeProps) {
   );
 }
 
-const formatTime = (time: Date, unit: EpochTimeProps['unit']) => {
+const formatTime = (time: Date, unit: EpochTimeProps["unit"]) => {
   switch (unit) {
-    case 'seconds':
+    case "seconds":
       return Math.floor(time.getTime() / 1000);
-    case 'milliseconds':
+    case "milliseconds":
       return Math.floor(time.getTime());
-    case 'microseconds':
+    case "microseconds":
       return Math.floor(time.getTime()) * 1000;
-    case 'nanoseconds':
+    case "nanoseconds":
       return Math.floor(time.getTime()) * 1000 * 1000;
-    case 'rfc3339': 
+    case "rfc3339":
       return time.toISOString();
-    case 'fulldatetime':
-        return time.toLocaleString('en-US', {dateStyle: 'full', timeStyle: 'medium'});
+    case "fulldatetime":
+      return time.toLocaleString("en-US", {
+        dateStyle: "full",
+        timeStyle: "medium",
+      });
   }
 };
