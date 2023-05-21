@@ -5,11 +5,9 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   // get url params "dt" and parse to date
-  const urlParams = new URLSearchParams(window.location.search);
-  const dt = urlParams.get("dt") || Date.now();
 
   const [inputValue, setInputValue] = useState("");
-  const [now, setNow] = useState(new Date(dt));
+  const [now, setNow] = useState(new Date());
 
   // set the dt url param to the current date/time
   useEffect(() => {
