@@ -4,10 +4,15 @@ import EpochTime from "@/components/epochTime";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  // get url params "dt" and parse to date
-
   const [inputValue, setInputValue] = useState("");
   const [now, setNow] = useState(new Date());
+
+  // get url params "dt" and parse to date
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const dt = urlParams.get("dt") || Date.now();
+    setNow(new Date(dt));
+  }, []);
 
   // set the dt url param to the current date/time
   useEffect(() => {
